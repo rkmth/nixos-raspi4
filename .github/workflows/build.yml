@@ -17,11 +17,11 @@ jobs:
           platforms: arm64
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v25
+        uses: cachix/install-nix-action@v24
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-            extra-platform = aarch64-linux
+            extra-platforms = aarch64-linux
             extra-sandbox-paths = /usr/bin/qemu-aarch64 /usr/bin/qemu-aarch64-static
 
       - name: Build SD card image
