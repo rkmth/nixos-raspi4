@@ -33,8 +33,8 @@
             };
 
             # Raspberry Pi specific optimizations
-            hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-            hardware.deviceTree.enable = true;
+           # hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+           # hardware.deviceTree.enable = true;
 
             # Reduce closure size for faster builds
             documentation.nixos.enable = false;

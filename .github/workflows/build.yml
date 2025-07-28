@@ -1,0 +1,34 @@
+name: Build Raspberry Pi Image
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v25
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build SD card image
+        run: |
+          nix build --extra-experimental-features nix-command --extra-experimental-features flakes .#packages.aarch64-linux.sdcard
+
+      - name: Get image info
+        run: |
+          ls -la result/sd-image/
+          echo "Image built successfully: $(ls result/sd-image/*.img)"
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raspberry-pi-image
+          path: result/sd-image/*.img
+          retention-days: 7
